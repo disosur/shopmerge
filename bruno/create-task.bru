@@ -1,0 +1,31 @@
+meta {
+  name: Create Task
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/api/create-task
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "task_bruno"
+  }
+}
+
+tests {
+  test("status is 202", function() {
+    expect(res.getStatus()).to.equal(202);
+  });
+
+  test("returns an event id", function() {
+    expect(res.getBody()).to.have.property("eventId");
+  });
+
+  test("echoes the task id", function() {
+    expect(res.getBody().taskId).to.equal("task_bruno");
+  });
+}

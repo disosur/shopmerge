@@ -1,0 +1,26 @@
+meta {
+  name: Function Manifest
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{baseUrl}}/api/inngest
+  body: none
+  auth: none
+}
+
+tests {
+  test("status is 200", function() {
+    expect(res.getStatus()).to.equal(200);
+  });
+
+  test("serves the SDK manifest", function() {
+    expect(res.getBody()).to.have.property("schema_version");
+    expect(res.getBody()).to.have.property("function_count", 1);
+  });
+
+  test("runs in dev mode", function() {
+    expect(res.getBody().mode).to.equal("dev");
+  });
+}
